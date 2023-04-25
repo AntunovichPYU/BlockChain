@@ -1,0 +1,5 @@
+SERVER_ID = 1
+SERVER_HOST = "localhost"
+PORT_1 = 5000
+PORT_2 = 5001
+PORT_3 = 5002
