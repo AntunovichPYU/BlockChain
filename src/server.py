@@ -5,6 +5,7 @@ import time
 import threading
 import grequests
 import json
+import logging
 
 
 def start(server_id, current_node):
@@ -22,7 +23,8 @@ def start(server_id, current_node):
         current_port = PORT_3
         port2 = PORT_1
         port3 = PORT_2
-    servers_urls = [f'http://{current_host}]:{current_port}/', f'http://{current_host}:{port2}/',
+    logging.getLogger('werkzeug').disabled = True
+    servers_urls = [f'http://{current_host}:{current_port}/', f'http://{current_host}:{port2}/',
                     f'http://{current_host}:{port3}/']
 
     def generate_blocks():
