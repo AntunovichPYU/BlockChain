@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  node3:
+    image: pvl/blockchain
+    container_name: node3
+    network_mode: host
+    environment:
+      - PORT_1=5000
+      - PORT_2=5001
+      - PORT_3=5002
+      - SERVER_ID=3
+      - SERVER_HOST=localhost
+    tty: true
+
+
+  node2:
+    image: pvl/blockchain
+    container_name: node2
+    network_mode: host
+    environment:
+      - PORT_1=5000
+      - PORT_2=5001
+      - PORT_3=5002
+      - SERVER_ID=2
+      - SERVER_HOST=localhost
+    tty: true
+
+  node1:
+    image: pvl/blockchain
+    container_name: node1
+    network_mode: host
+    environment:
+      - PORT_1=5000
+      - PORT_2=5001
+      - PORT_3=5002
+      - SERVER_ID=1
+      - SERVER_HOST=localhost
+    tty: true
+    depends_on:
+      - node2
+      - node3
