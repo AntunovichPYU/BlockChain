@@ -1,4 +1,4 @@
-from config import PORT_1, PORT_2, PORT_3, SERVER_HOST
+from config import SERVER_HOST, NEIGHBOURS
 from blockchain import Block
 from flask import Flask, request
 import time
@@ -11,21 +11,11 @@ import logging
 def start(server_id, current_node):
     current_server = Flask(__name__)
     current_host = SERVER_HOST
-    if server_id == 1:
-        current_port = PORT_1
-        port2 = PORT_2
-        port3 = PORT_3
-    elif server_id == 2:
-        current_port = PORT_2
-        port2 = PORT_1
-        port3 = PORT_3
-    else:
-        current_port = PORT_3
-        port2 = PORT_1
-        port3 = PORT_2
+    neighbours = NEIGHBOURS
     logging.getLogger('werkzeug').disabled = True
-    servers_urls = [f'http://{current_host}:{current_port}/', f'http://{current_host}:{port2}/',
-                    f'http://{current_host}:{port3}/']
+    servers_urls = [f'http://{current_host}/']
+    for neighbour in neighbours:
+        servers_urls.append(f'http://{neighbour}/')
 
     def generate_blocks():
         while True:
@@ -43,7 +33,9 @@ def start(server_id, current_node):
             return "error"
         return "new block received"
 
-    current_server = threading.Thread(target=current_server.run, args=(current_host, current_port))
+    host = current_host.split(":")[0]
+    port = current_host.split(":")[1]
+    current_server = threading.Thread(target=current_server.run, args=(host, port))
     current_server_generator = threading.Thread(target=generate_blocks)
     current_server.setDaemon(False)
     current_server_generator.setDaemon(False)

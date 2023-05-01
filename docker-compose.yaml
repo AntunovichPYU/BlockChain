@@ -4,38 +4,29 @@ services:
   node3:
     image: pvl/blockchain
     container_name: node3
-    network_mode: host
     environment:
-      - PORT_1=5000
-      - PORT_2=5001
-      - PORT_3=5002
       - SERVER_ID=3
-      - SERVER_HOST=localhost
+      - SERVER_HOST=node3:5002
+      - NEIGHBOURS=node1:5000,node2:5001
     tty: true
 
 
   node2:
     image: pvl/blockchain
     container_name: node2
-    network_mode: host
     environment:
-      - PORT_1=5000
-      - PORT_2=5001
-      - PORT_3=5002
       - SERVER_ID=2
-      - SERVER_HOST=localhost
+      - SERVER_HOST=node2:5001
+      - NEIGHBOURS=node1:5000,node3:5002
     tty: true
 
   node1:
     image: pvl/blockchain
     container_name: node1
-    network_mode: host
     environment:
-      - PORT_1=5000
-      - PORT_2=5001
-      - PORT_3=5002
       - SERVER_ID=1
-      - SERVER_HOST=localhost
+      - SERVER_HOST=node1:5000
+      - NEIGHBOURS=node2:5001,node3:5002
     tty: true
     depends_on:
       - node2
